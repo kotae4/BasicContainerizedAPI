@@ -1,0 +1,7 @@
+services:
+  webapi:
+    build: .
+    image: flask-webapi
+    ports:
+      - "25005:25005"
+    restart: always

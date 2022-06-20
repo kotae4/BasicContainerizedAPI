@@ -1,7 +1,26 @@
 # BasicContainerizedAPI
- Exposing a basic webapi through its docker container.
 
-## Installation ##
+Exposing a basic webapi through its docker container.<br>
+
+This project is an experiment with docker, however it's also worth providing non-docker instructions too, so I will split them into two separate categories.<br>
+If you'd like to install and run via a docker container, following the Docker-specific Instructions. If you'd like to install, run, modify, or generate api documentation then follow the General Instructions.
+
+
+## Docker-specific Instructions ##
+
+These instructions are for running the API within a docker container accessible via port 25005.
+
+1. Install Docker
+2. Open a command-line shell and point it at this directory
+3. Type `docker-compose up`
+4. The API is now accessible via `http://127.0.0.1:25005/`.
+5. Refer to documentation on available endpoints, expected arguments, and response format
+6. If you made changes run `docker-compose build` and start over from step 1
+
+## General Instructions ##
+
+These instructions are for running the API in flask's built-in development server on port 5000 (by default), as well as general instructions for other tasks.
+### Installation ###
 
 1. Install Python and add it to your PATH variable so you can invoke it from a command-line shell
 2. Open a command-line shell and point it at this directory
@@ -12,12 +31,12 @@
     | `venv\Scripts\activate` (per shell instance) | `. venv/bin/activate` (per shell instance) |
 4. Type `pip install -r requirements.txt`
 
-## Invocation ##
+### Invocation ###
 
 These instructions will start the Flask internal webserver. This is good for development. For deploying to production, refer to Flask's website. This project is not meant to be deployed to production, so you are on your own.
 
 1. Follow the instructions in the 'Installation' section of this README if you haven't already
-2. Setup Flask environment variables:
+2. Invoke flask after setting up environment variables:
     <table>
     <tr>
     <td> Windows (cmd prompt) </td> <td> Mac/Linux (bash) </td>
@@ -46,7 +65,7 @@ These instructions will start the Flask internal webserver. This is good for dev
 3. The API is now accessible via `http://localhost:5000/`.
 4. Refer to documentation on available endpoints, expected arguments, and response format.
 
-## Re-Generating Documentation ##
+### Re-Generating Documentation ###
 
 The provided documentation is generated with [pdoc](https://pdoc.dev/). pdoc looks at python's built-in docstrings to generate most of its documentation. These are special comments that follow module, class, or function definitions:
 ```py
