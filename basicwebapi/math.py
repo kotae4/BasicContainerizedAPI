@@ -1,10 +1,7 @@
-"""A basic WebAPI for experimenting with docker containers"""
 from flask import Flask
 from flask import request
 
-app = Flask(__name__);
-
-class _ResponseObject:
+class _MathResponseObject:
     status = -1;
     body = "Unknown Error";
 
@@ -15,7 +12,6 @@ class _ResponseObject:
     def ToObject(self):
         return { "status": self.status, "body": self.body};
 
-@app.route('/math')
 def math():
     """**/math?leftOperand={integer}&rightOperand={integer}&operation={add|subtract|multiply|divide}**<br>
     *Expects integers to be whole numbers.*<br>
@@ -28,12 +24,12 @@ def math():
         leftOperand = request.args.get("leftOperand", type=int);
         rightOperand = request.args.get("rightOperand", type=int);
     except ValueError:
-        return _ResponseObject(400, "Bad operands. Expected to be a whole integer.").ToObject();
+        return _MathResponseObject(400, "Bad operands. Expected to be a whole integer.").ToObject();
 
     operation = request.args.get("operation", type=str);
 
     if ((leftOperand == None) or (rightOperand == None) or (operation == None)):
-        return _ResponseObject(400, "Missing arguments. Expected 'leftOperand', 'rightOperand', and 'operation'. Refer to documentation.").ToObject();
+        return _MathResponseObject(400, "Missing arguments. Expected 'leftOperand', 'rightOperand', and 'operation'. Refer to documentation.").ToObject();
 
     # now just check the operation arg and perform the associated calculation
     # or error if it does not match any supported operations
@@ -48,8 +44,8 @@ def math():
         elif (operation == 'divide'):
             result = leftOperand / rightOperand;
         else:
-            return _ResponseObject(400, "Bad operation. Expected 'add', 'subtract', 'multiply', or 'divide'.").ToObject();
+            return _MathResponseObject(400, "Bad operation. Expected 'add', 'subtract', 'multiply', or 'divide'.").ToObject();
     except (ArithmeticError, MemoryError):
-        return _ResponseObject(400, "Calculation impossible with provided operands.").ToObject();
+        return _MathResponseObject(400, "Calculation impossible with provided operands.").ToObject();
 
-    return _ResponseObject(200, result).ToObject();
+    return _MathResponseObject(200, result).ToObject();

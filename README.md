@@ -25,7 +25,7 @@ These instructions are for running the API in flask's built-in development serve
 1. Install Python and add it to your PATH variable so you can invoke it from a command-line shell
 2. Open a command-line shell and point it at this directory
 3. (optional) Create a new virtual environment:
-    | Windows | Mac/Linux |
+    | Windows (cmd prompt) | Mac/Linux |
     | --- | --- |
     | `py -3 -m venv venv` (only once) | `python3 -m venv venv` (only once) |
     | `venv\Scripts\activate` (per shell instance) | `. venv/bin/activate` (per shell instance) |
@@ -45,7 +45,7 @@ These instructions will start the Flask internal webserver. This is good for dev
     <td>
 
     ```
-    set FLASK_APP=hello
+    set FLASK_APP=basicwebapi
     set FLASK_ENV=development
     flask run
     ```
@@ -54,7 +54,7 @@ These instructions will start the Flask internal webserver. This is good for dev
     <td>
 
     ```
-    export FLASK_APP=main.py
+    export FLASK_APP=basicwebapi
     export FLASK_ENV=development
     flask run
     ```
@@ -74,7 +74,16 @@ The provided documentation is generated with [pdoc](https://pdoc.dev/). pdoc loo
 pdoc also provides a way of documenting variables / fields using the same format. pdoc will interpret these docstrings as markdown (along with some common markdown extensions). Refer to their website for more details. This is not a pdoc tutorial and I am not associated with pdoc in any way.
 
 1. Install pdoc via `pip install pdoc`
-2. Generate the documentation via `pdoc ./main.py`
+2. Generate the documentation via `pdoc basicwebapi`
 
 The above invocation will automatically open your web browser and point it at pdoc's internal webserver. This is good for active development. When finished, export the HTML to the docs folder like this:
-1. `pdoc ./main.py -o ./docs`
+1. `pdoc basicwebapi -o ./docs`
+
+### Running Tests ###
+
+This project uses pytest. Each test is contained in a file that begins with `test_` and each test function begins with `test_` as well. Refer to pytest documentation for more info. This is not a pytest tutorial and I am not affiliated with pytest in any way.
+
+1. Install pytest and coverage via `pip install pytest coverage`
+2. Run pytest via `pytest`
+3. Run coverage via `coverage run -m pytest`
+4. See the coverage report via `coverage report` or output to htmlconv/index.html via `coverage html`
