@@ -13,12 +13,12 @@ class _MathResponseObject:
         return { "status": self.status, "body": self.body};
 
 def math():
-    """**/math?leftOperand={integer}&rightOperand={integer}&operation={add|subtract|multiply|divide}**<br>
+    """**/math?leftOperand=integer&rightOperand=integer&operation=add|subtract|multiply|divide**<br>
     *Expects integers to be whole numbers.*<br>
-    **Response Schema (JSON):** { "status": {integer}, "body": {integer|string} }<br>
+    **Response Schema (JSON):** { "status":integer, "body":integer | string }<br>
     **Status codes:**<br>
-    **400** - indiciates an error. The "body" field is a string containing the detailed error message.<br>
-    **200** - indicates a success. The "body" field is an integer containing the result of the operation.<br>
+    **400** - indiciates an error. The `body` field is a string containing the detailed error message.<br>
+    **200** - indicates a success. The `body` field is an integer containing the result of the operation.<br>
     """
     try:
         leftOperand = request.args.get("leftOperand", type=int);

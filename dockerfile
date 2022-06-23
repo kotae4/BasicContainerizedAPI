@@ -13,5 +13,7 @@ ENV FLASK_ENV=development
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=25005
 
+RUN flask init-db
+
 EXPOSE 25005
 CMD ["flask", "run"]

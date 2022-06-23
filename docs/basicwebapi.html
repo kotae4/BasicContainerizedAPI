@@ -25,6 +25,7 @@
         <h2>Submodules</h2>
         <ul>
                 <li><a href="basicwebapi/math.html">math</a></li>
+                <li><a href="basicwebapi/songs.html">songs</a></li>
         </ul>
 
         <h2>API Documentation</h2>
@@ -67,25 +68,35 @@ basicwebapi    </h1>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">instance_relative_config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="n">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;ajoke&quot;</span><span class="p">,</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="p">)</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">if</span> <span class="n">test_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="c1"># load the instance config, if it exists, when not testing</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="s2">&quot;config.py&quot;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="c1"># load the test config if passed in</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span><span class="n">test_config</span><span class="p">)</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="c1"># ensure the instance folder exists</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">)</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="k">pass</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">math</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/math&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">math</span><span class="p">);</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">return</span> <span class="n">app</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="n">DATABASE</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">,</span> <span class="s2">&quot;basicwebapi.sqlite&quot;</span><span class="p">),</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="p">)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="k">if</span> <span class="n">test_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>        <span class="c1"># load the instance config, if it exists, when not testing</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="s2">&quot;config.py&quot;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="c1"># load the test config if passed in</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span><span class="n">test_config</span><span class="p">)</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="c1"># ensure the instance folder exists</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">)</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">db</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">math</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/math&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">math</span><span class="p">);</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">songs</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">songs</span><span class="p">);</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/upload&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">post_song</span><span class="p">);</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/&lt;int:id&gt;/delete&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">delete_song</span><span class="p">);</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/&lt;int:id&gt;&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">get_song</span><span class="p">);</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="k">return</span> <span class="n">app</span>
 </span></pre></div>
 
 
@@ -108,25 +119,35 @@ basicwebapi    </h1>
 </span><span id="create_app-11"><a href="#create_app-11"><span class="linenos">11</span></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">instance_relative_config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="create_app-12"><a href="#create_app-12"><span class="linenos">12</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span>
 </span><span id="create_app-13"><a href="#create_app-13"><span class="linenos">13</span></a>        <span class="n">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;ajoke&quot;</span><span class="p">,</span>
-</span><span id="create_app-14"><a href="#create_app-14"><span class="linenos">14</span></a>    <span class="p">)</span>
-</span><span id="create_app-15"><a href="#create_app-15"><span class="linenos">15</span></a>
-</span><span id="create_app-16"><a href="#create_app-16"><span class="linenos">16</span></a>    <span class="k">if</span> <span class="n">test_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="create_app-17"><a href="#create_app-17"><span class="linenos">17</span></a>        <span class="c1"># load the instance config, if it exists, when not testing</span>
-</span><span id="create_app-18"><a href="#create_app-18"><span class="linenos">18</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="s2">&quot;config.py&quot;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="create_app-19"><a href="#create_app-19"><span class="linenos">19</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="create_app-20"><a href="#create_app-20"><span class="linenos">20</span></a>        <span class="c1"># load the test config if passed in</span>
-</span><span id="create_app-21"><a href="#create_app-21"><span class="linenos">21</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span><span class="n">test_config</span><span class="p">)</span>
-</span><span id="create_app-22"><a href="#create_app-22"><span class="linenos">22</span></a>
-</span><span id="create_app-23"><a href="#create_app-23"><span class="linenos">23</span></a>    <span class="c1"># ensure the instance folder exists</span>
-</span><span id="create_app-24"><a href="#create_app-24"><span class="linenos">24</span></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="create_app-25"><a href="#create_app-25"><span class="linenos">25</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">)</span>
-</span><span id="create_app-26"><a href="#create_app-26"><span class="linenos">26</span></a>    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-</span><span id="create_app-27"><a href="#create_app-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
-</span><span id="create_app-28"><a href="#create_app-28"><span class="linenos">28</span></a>
-</span><span id="create_app-29"><a href="#create_app-29"><span class="linenos">29</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">math</span>
-</span><span id="create_app-30"><a href="#create_app-30"><span class="linenos">30</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/math&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">math</span><span class="p">);</span>
-</span><span id="create_app-31"><a href="#create_app-31"><span class="linenos">31</span></a>
-</span><span id="create_app-32"><a href="#create_app-32"><span class="linenos">32</span></a>    <span class="k">return</span> <span class="n">app</span>
+</span><span id="create_app-14"><a href="#create_app-14"><span class="linenos">14</span></a>        <span class="n">DATABASE</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">,</span> <span class="s2">&quot;basicwebapi.sqlite&quot;</span><span class="p">),</span>
+</span><span id="create_app-15"><a href="#create_app-15"><span class="linenos">15</span></a>    <span class="p">)</span>
+</span><span id="create_app-16"><a href="#create_app-16"><span class="linenos">16</span></a>
+</span><span id="create_app-17"><a href="#create_app-17"><span class="linenos">17</span></a>    <span class="k">if</span> <span class="n">test_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="create_app-18"><a href="#create_app-18"><span class="linenos">18</span></a>        <span class="c1"># load the instance config, if it exists, when not testing</span>
+</span><span id="create_app-19"><a href="#create_app-19"><span class="linenos">19</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="s2">&quot;config.py&quot;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="create_app-20"><a href="#create_app-20"><span class="linenos">20</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="create_app-21"><a href="#create_app-21"><span class="linenos">21</span></a>        <span class="c1"># load the test config if passed in</span>
+</span><span id="create_app-22"><a href="#create_app-22"><span class="linenos">22</span></a>        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_mapping</span><span class="p">(</span><span class="n">test_config</span><span class="p">)</span>
+</span><span id="create_app-23"><a href="#create_app-23"><span class="linenos">23</span></a>
+</span><span id="create_app-24"><a href="#create_app-24"><span class="linenos">24</span></a>    <span class="c1"># ensure the instance folder exists</span>
+</span><span id="create_app-25"><a href="#create_app-25"><span class="linenos">25</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="create_app-26"><a href="#create_app-26"><span class="linenos">26</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">instance_path</span><span class="p">)</span>
+</span><span id="create_app-27"><a href="#create_app-27"><span class="linenos">27</span></a>    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+</span><span id="create_app-28"><a href="#create_app-28"><span class="linenos">28</span></a>        <span class="k">pass</span>
+</span><span id="create_app-29"><a href="#create_app-29"><span class="linenos">29</span></a>
+</span><span id="create_app-30"><a href="#create_app-30"><span class="linenos">30</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">db</span>
+</span><span id="create_app-31"><a href="#create_app-31"><span class="linenos">31</span></a>    <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+</span><span id="create_app-32"><a href="#create_app-32"><span class="linenos">32</span></a>
+</span><span id="create_app-33"><a href="#create_app-33"><span class="linenos">33</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">math</span>
+</span><span id="create_app-34"><a href="#create_app-34"><span class="linenos">34</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/math&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">math</span><span class="p">);</span>
+</span><span id="create_app-35"><a href="#create_app-35"><span class="linenos">35</span></a>
+</span><span id="create_app-36"><a href="#create_app-36"><span class="linenos">36</span></a>    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">songs</span>
+</span><span id="create_app-37"><a href="#create_app-37"><span class="linenos">37</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">songs</span><span class="p">);</span>
+</span><span id="create_app-38"><a href="#create_app-38"><span class="linenos">38</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/upload&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">post_song</span><span class="p">);</span>
+</span><span id="create_app-39"><a href="#create_app-39"><span class="linenos">39</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/&lt;int:id&gt;/delete&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">delete_song</span><span class="p">);</span>
+</span><span id="create_app-40"><a href="#create_app-40"><span class="linenos">40</span></a>    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s1">&#39;/songs/&lt;int:id&gt;&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">songs</span><span class="o">.</span><span class="n">get_song</span><span class="p">);</span>
+</span><span id="create_app-41"><a href="#create_app-41"><span class="linenos">41</span></a>
+</span><span id="create_app-42"><a href="#create_app-42"><span class="linenos">42</span></a>    <span class="k">return</span> <span class="n">app</span>
 </span></pre></div>
 
 

@@ -74,10 +74,10 @@ The provided documentation is generated with [pdoc](https://pdoc.dev/). pdoc loo
 pdoc also provides a way of documenting variables / fields using the same format. pdoc will interpret these docstrings as markdown (along with some common markdown extensions). Refer to their website for more details. This is not a pdoc tutorial and I am not associated with pdoc in any way.
 
 1. Install pdoc via `pip install pdoc`
-2. Generate the documentation via `pdoc basicwebapi`
+2. Generate the documentation via `pdoc basicwebapi !basicwebapi.db`
 
 The above invocation will automatically open your web browser and point it at pdoc's internal webserver. This is good for active development. When finished, export the HTML to the docs folder like this:
-1. `pdoc basicwebapi -o ./docs`
+1. `pdoc basicwebapi !basicwebapi.db -o ./docs`
 
 ### Running Tests ###
 

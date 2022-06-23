@@ -10,6 +10,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="ajoke",
+        DATABASE=os.path.join(app.instance_path, "basicwebapi.sqlite"),
     )
 
     if test_config is None:
@@ -25,7 +26,16 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    from . import db
+    db.init_app(app);
+
     from . import math
     app.add_url_rule('/math', view_func=math.math);
+
+    from . import songs
+    app.add_url_rule('/songs', view_func=songs.songs);
+    app.add_url_rule('/songs/upload', view_func=songs.post_song);
+    app.add_url_rule('/songs/<int:id>/delete', view_func=songs.delete_song);
+    app.add_url_rule('/songs/<int:id>', view_func=songs.get_song);
 
     return app
