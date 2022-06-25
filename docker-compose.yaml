@@ -1,7 +1,32 @@
 services:
+  mariadb:
+    image: mariadb:10.7.4
+    environment:
+      - MARIADB_ROOT_PASSWORD=toor
+      - MARIADB_DATABASE=basicwebapi
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - basicwebapi-db:/var/lib/mysql/:rw
+      - ./db-schema:/docker-entrypoint-initdb.d/:ro
   webapi:
+    depends_on:
+      - mariadb
     build: .
     image: flask-webapi
+    command: ./bootstrap.sh
+    restart: always
     ports:
       - "25005:25005"
-    restart: always
+    environment:
+      - FLASK_APP=basicwebapi
+      - FLASK_ENV=development
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=25005
+      - BASICWEBAPI-SETTINGS=basicwebapi-settings.cfg
+    volumes:
+      - ./:/api
+
+volumes:
+  basicwebapi-db:

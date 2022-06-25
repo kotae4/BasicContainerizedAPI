@@ -54,9 +54,10 @@ def songs():
         db = get_db();
         # TO-DO:
         # limit 100 and paginate
-        songs = db.execute(
+        db.execute(
             'SELECT * FROM songs'
-        ).fetchall();
+        );
+        songs = db.fetchall();
         formattedSongList = [];
         for song in songs:
             # lol i really should read up how to model stuff properly
@@ -66,7 +67,7 @@ def songs():
         
         return _SongsResponseObject(200, formattedSongList).ToObject();
     except Exception as e:
-        return _SongsResponseObject(400, "Contact server administrator.").ToObject();
+        return _SongsResponseObject(400, "Contact server administrator. (Error: {})".format(e)).ToObject();
 
 def post_song():
     """**/songs/upload**<br>
@@ -91,11 +92,11 @@ def post_song():
             return _SongsResponseObject(400, "Invalid arguments. Expected 'title', 'artist', and 'duration' key:value pairs.").ToObject();
 
         db.execute("INSERT INTO songs (title, artist, duration) VALUES (?, ?, ?)", (songData["title"], songData["artist"], songData["duration"]));
-        db.commit();
+        db.connection.commit();
         
         return _SongsResponseObject(200, "Success").ToObject();
     except Exception as e:
-        return _SongsResponseObject(400, "Contact server administrator.").ToObject();
+        return _SongsResponseObject(400, "Contact server administrator. (Error: {})".format(e)).ToObject();
 
 post_song.methods = ['POST'];
 
@@ -110,11 +111,11 @@ def delete_song(id):
     try:
         db = get_db();
         db.execute("DELETE FROM songs WHERE id = ?", (id,));
-        db.commit();
+        db.connection.commit();
         
         return _SongsResponseObject(200, "Success").ToObject();
     except Exception as e:
-        return _SongsResponseObject(400, "Contact server administrator.").ToObject();
+        return _SongsResponseObject(400, "Contact server administrator. (Error: {})".format(e)).ToObject();
 
 def get_song(id):
     """**/songs/{id}**<br>
@@ -126,11 +127,12 @@ def get_song(id):
     """
     try:
         db = get_db();
-        song = db.execute("SELECT * FROM songs WHERE id = ?", (id,)).fetchone();
+        db.execute("SELECT * FROM songs WHERE id = ?", (id,))
+        song = db.fetchone();
         if (song is None):
             return _SongsResponseObject(404, "Song not found.").ToObject();
 
         fmtSong = SongObject(*tuple(song));
         return _SongsResponseObject(200, fmtSong._ToObject()).ToObject();
     except Exception as e:
-        return _SongsResponseObject(400, "Contact server administrator.").ToObject();
+        return _SongsResponseObject(400, "Contact server administrator. (Error: {})".format(e)).ToObject();

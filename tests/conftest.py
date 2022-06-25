@@ -1,30 +1,30 @@
 """Provides some core test fixtures used by all tests"""
-import os
-import tempfile
 import pytest
 from basicwebapi import create_app
-from basicwebapi.db import get_db, init_db
-
-with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
-    _data_sql = f.read().decode('utf8')
+from basicwebapi.db import get_db
 
 @pytest.fixture
 def app():
-    db_fd, db_path = tempfile.mkstemp()
 
+    # to-do:
+    # use separate db for tests
+    # for now i'll just make sure all the tests operate on a separate table
     app = create_app({
         'TESTING': True,
-        'DATABASE': db_path,
+        'MARIADB_HOST': 'mariadb',
+        'MARIADB_PORT': 3306,
+        'MARIADB_DATABASE': 'basicwebapi-test',
+        'MARIADB_USER': 'root',
+        'MARIADB_PASS': 'toor',
     })
-
+    """
     with app.app_context():
-        init_db()
-        get_db().executescript(_data_sql)
+        db = get_db();
+        db.execute("INSERT IGNORE INTO songs (title, artist, duration) VALUES ('Motteke! Sailor Fuku!', 'Lucky Star', 267)");
+        db.connection.commit();
+    """
 
     yield app
-
-    os.close(db_fd)
-    os.unlink(db_path)
 
 
 @pytest.fixture

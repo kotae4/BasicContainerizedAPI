@@ -8,14 +8,22 @@ def create_app(test_config=None):
     `test_config` arg is currently only used for unit tests. Leave default for normal usage."""
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    # default config
     app.config.from_mapping(
         SECRET_KEY="ajoke",
-        DATABASE=os.path.join(app.instance_path, "basicwebapi.sqlite"),
-    )
+        MARIADB_HOST='mariadb',
+        MARIADB_PORT=3306,
+        MARIADB_DATABASE='basicwebapi',
+        MARIADB_USER='root',
+        MARIADB_PASS='toor',
+    );
 
     if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile("config.py", silent=True)
+        # the BASICWEBAPI-SETTINGS envvar should point to a file
+        # this file should then contain 'UPPERCASE=value' config values
+        # python-style comments are allowed in the config file
+        app.config.from_envvar('BASICWEBAPI-SETTINGS', True);
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)

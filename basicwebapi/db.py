@@ -1,34 +1,37 @@
-import sqlite3
+import mariadb;
+import time;
 
-import click
 from flask import current_app, g
-from flask.cli import with_appcontext
+
 
 def init_app(app):
     app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
-
-def init_db():
-    db = get_db()
-
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
-
-
-@click.command('init-db')
-@with_appcontext
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
+        attempts = 0;
+        # TO-DO:
+        # figure out how to handle this race condition better
+        # on first run, the mariadb container performs initialization that takes a few seconds
+        # but this initialization is done separately from the container startup, so docker continues to basicwebapi container right away
+        # but basicwebapi can't connect until that first-time initialization is done
+        while (attempts < 12):
+            try:
+                attempts = attempts + 1;
+                print("attempting db connection to '{}'".format(current_app.config['MARIADB_HOST']));
+                conn = mariadb.connect(
+                    host = current_app.config['MARIADB_HOST'],
+                    port=current_app.config['MARIADB_PORT'],
+                    user=current_app.config['MARIADB_USER'],
+                    password=current_app.config['MARIADB_PASS'],
+                    database=current_app.config['MARIADB_DATABASE']
+                );
+                if (conn is not None):
+                    g.db = conn.cursor();
+                    break;
+            except mariadb.Error as e:
+                print("Could not connect to database. Check connectivity and then check config values.");
+                time.sleep(5);
 
     return g.db
 
@@ -37,4 +40,5 @@ def close_db(e=None):
     db = g.pop('db', None)
 
     if db is not None:
-        db.close()
+        db.connection.close();
+        db.close();
