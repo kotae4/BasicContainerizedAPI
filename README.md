@@ -51,6 +51,8 @@ This project uses pytest. Each test is contained in a file that begins with `tes
 3. Run coverage via `coverage run -m pytest`
 4. See the coverage report via `coverage report` or output to htmlconv/index.html via `coverage html`
 
+Note: You should open a shell inside the basiccontainerizedapi_webapi container and run the above commands there.
+
 ## How-To Install locally (without docker) ##
 
 This isn't meant to run outside of docker. You may have to change some things in the code. I have not tested it locally so I do not know.<br>
